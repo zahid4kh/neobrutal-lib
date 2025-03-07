@@ -8,6 +8,7 @@ pluginManagement {
             }
         }
         mavenCentral()
+        maven("https://jitpack.io")
         gradlePluginPortal()
     }
 }
@@ -21,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ZahidNeoBrutal"
 include(":app")
+include(":neobrutal")
