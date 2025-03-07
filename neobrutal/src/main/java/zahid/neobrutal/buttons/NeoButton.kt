@@ -1,6 +1,5 @@
 package zahid.neobrutal.buttons
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -18,6 +17,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
@@ -83,7 +83,7 @@ fun NeoButton(
                     drawRect(
                         color = shadowColor,
                         size = size,
-                        style = androidx.compose.ui.graphics.drawscope.Stroke(
+                        style = Stroke(
                             width = 2f
                         )
                     )
