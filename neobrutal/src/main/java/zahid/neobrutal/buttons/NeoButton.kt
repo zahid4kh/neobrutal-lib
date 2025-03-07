@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +20,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -38,19 +41,18 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun NeoButton(
+    modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    isPressed: Boolean = false,
     enabled: Boolean = true,
     backgroundColor: Color = Color(0xFFFF5470),
     textColor: Color = Color.White,
     shadowColor: Color = Color.Black,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    width: Dp = 200.dp,
+    height: Dp = 100.dp
 ) {
-    // Track pressed state to show button press animation
-    var isPressed by remember { mutableStateOf(false) }
-
-    // Main button container
     Box(
         modifier = modifier
             .clickable(
@@ -59,17 +61,14 @@ fun NeoButton(
                     onClick()
                 }
             )
+            .size(width = width, height = height)
             .padding(bottom = 8.dp, end = 8.dp)
     ) {
-        // Shadow/backdrop layer
         Box(
             modifier = Modifier
-                .matchParentSize()
                 .offset(x = 8.dp, y = 8.dp)
                 .background(shadowColor, shape)
         )
-
-        // Button surface
         Box(
             modifier = Modifier
                 .matchParentSize()
@@ -79,7 +78,6 @@ fun NeoButton(
                 )
                 .background(backgroundColor, shape)
                 .drawBehind {
-                    // Draw border
                     drawRect(
                         color = shadowColor,
                         size = size,
@@ -90,12 +88,11 @@ fun NeoButton(
                 },
             contentAlignment = Alignment.Center
         ) {
-            // Button text
             Text(
                 text = text,
                 color = textColor,
                 style = TextStyle(
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                    fontWeight = FontWeight.Bold
                 ),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )

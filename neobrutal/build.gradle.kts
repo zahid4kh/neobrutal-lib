@@ -31,7 +31,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "2.0.21"  // Make sure this matches your Kotlin version
+        kotlinCompilerExtensionVersion = "2.0.21"
     }
 
     compileOptions {
@@ -67,10 +67,10 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.zahid4kh"
             artifactId = "neobrutal"
-            version = "1.0.1"
+            version = "1.0.2"
 
             afterEvaluate {
-                from(components["release"])  // Use "release" instead of "default"
+                from(components["release"])
             }
         }
     }
