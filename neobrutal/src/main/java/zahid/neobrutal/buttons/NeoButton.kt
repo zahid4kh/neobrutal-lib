@@ -30,14 +30,17 @@ import androidx.compose.ui.unit.dp
  * The NeoBrutal style emphasizes bold geometric shapes with strong shadows and
  * thick borders. This button has a 3D effect that changes on press.
  *
- * @param text The text displayed on the button
- * @param onClick The callback to be invoked when the button is clicked
- * @param modifier Modifier to be applied to the button
- * @param enabled Controls the enabled state of the button
- * @param backgroundColor The background color of the button
- * @param textColor The color of the button text
- * @param shadowColor The color of the 3D shadow effect
- * @param shape The shape of the button (defaults to rectangular)
+ * @param modifier Modifier to be applied to the button.
+ * @param text The text displayed on the button.
+ * @param onClick The callback to be invoked when the button is clicked.
+ * @param enabled Controls the enabled state of the button. When `false`, the button will be grayed out and not clickable.
+ * @param isPressed Indicates whether the button is currently pressed. This affects the 3D effect.
+ * @param backgroundColor The background color of the button.
+ * @param textColor The color of the button text.
+ * @param shadowColor The color of the 3D shadow effect.
+ * @param shape The shape of the button (defaults to rectangular).
+ * @param width The width of the button.
+ * @param height The height of the button.
  */
 @Composable
 fun NeoButton(
