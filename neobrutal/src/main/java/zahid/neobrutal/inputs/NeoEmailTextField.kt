@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.sp
 import zahid.neobrutal.R
 
 /**
- * A password text field component in NeoBrutal style.
+ * An email text field component in NeoBrutal style.
  *
  * This text field features thick borders, sharp corners, and a monospaced font
  * following NeoBrutal design principles. It includes options for labels, icons,
@@ -62,10 +62,9 @@ import zahid.neobrutal.R
  * @param modifier Modifier to be applied to the text field
  * @param label Optional label to display above the text field
  * @param placeholder Optional placeholder text displayed when the field is empty
- * @param leadingIcon Optional icon to display at the start of the text field
- * @param trailingIcon Optional icon to display at the end of the text field
+ * @param errorMessage Optional error message to display when the input is invalid
  * @param enabled Whether the text field is enabled
- * @param isError Whether the text field has an error or not
+ * @param isError Whether the text field has an error
  * @param readOnly Whether the text field is read-only
  * @param keyboardOptions Options controlling keyboard behavior
  * @param keyboardActions Actions to perform based on keyboard input
@@ -84,15 +83,13 @@ import zahid.neobrutal.R
  * @param shape Shape of the text field
  */
 @Composable
-fun NeoPasswordTextField(
+fun NeoEmailTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String? = "Password",
-    placeholder: String? = "Enter your password",
-    errorMessage: String = "Password cannot contain spaces",
-    leadingIcon: Painter? = null,
-    trailingIcon: Painter? = null,
+    label: String? = "Email",
+    placeholder: String? = "Enter your email",
+    errorMessage: String = "Email must contain `@`",
     enabled: Boolean = true,
     isError: MutableState<Boolean>,
     readOnly: Boolean = false,
@@ -106,7 +103,7 @@ fun NeoPasswordTextField(
         fontSize = 16.sp
     ),
     backgroundColor: Color = Color.White,
-    focusedBorderColor: Color = Color(0xFFFF5470),
+    focusedBorderColor: Color = Color(0xFF521922),
     unfocusedBorderColor: Color = Color.Black,
     labelColor: Color = Color.Black,
     placeholderColor: Color = Color.Gray,
@@ -123,13 +120,8 @@ fun NeoPasswordTextField(
         else -> unfocusedBorderColor
     }
 
-    val leadingIcon = leadingIcon ?: painterResource(R.drawable.lock)
-    val trailingIcon = trailingIcon ?: painterResource(R.drawable.eye_closed)
-
-    var showPassword by remember { mutableStateOf(false) }
-
     LaunchedEffect(value) {
-        isError.value = value.contains(" ")
+        isError.value = !value.contains("@")
     }
 
     Column(modifier = modifier) {
@@ -158,9 +150,8 @@ fun NeoPasswordTextField(
                 enabled = enabled,
                 readOnly = readOnly,
                 textStyle = textStyle.copy(color = if (enabled) Color.Black else Color.Gray),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = keyboardActions,
-                visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                visualTransformation = VisualTransformation.None,
                 interactionSource = interactionSource,
                 singleLine = true,
                 cursorBrush = SolidColor(focusedBorderColor),
@@ -176,14 +167,6 @@ fun NeoPasswordTextField(
                             .height(48.dp)
                             .padding(horizontal = 8.dp)
                     ) {
-                        Icon(
-                            painter = leadingIcon,
-                            contentDescription = null,
-                            tint = iconTint,
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-
                         Box(
                             modifier = Modifier.weight(1f),
                             contentAlignment = Alignment.CenterStart
@@ -197,18 +180,6 @@ fun NeoPasswordTextField(
                             }
                             innerTextField()
                         }
-
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Icon(
-                            painter = trailingIcon,
-                            contentDescription = null,
-                            tint = iconTint,
-                            modifier = Modifier
-                                .size(24.dp)
-                                .clickable {
-                                    showPassword = !showPassword
-                                }
-                        )
                     }
                 }
             )
