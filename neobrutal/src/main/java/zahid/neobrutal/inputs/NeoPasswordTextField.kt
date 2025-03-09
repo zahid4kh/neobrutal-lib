@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.sp
 import zahid.neobrutal.R
 
 /**
- * A password text field component in NeoBrutal style.
+ * A text field component in NeoBrutal style.
  *
  * This text field features thick borders, sharp corners, and a monospaced font
  * following NeoBrutal design principles. It includes options for labels, icons,
@@ -123,10 +123,12 @@ fun NeoPasswordTextField(
         else -> unfocusedBorderColor
     }
 
-    val leadingIcon = leadingIcon ?: painterResource(R.drawable.lock)
-    val trailingIcon = trailingIcon ?: painterResource(R.drawable.eye_closed)
-
     var showPassword by remember { mutableStateOf(false) }
+
+    val leadingIcon = leadingIcon ?: painterResource(R.drawable.lock)
+    val trailingIcon = trailingIcon ?: painterResource(
+        if(showPassword && value.isNotEmpty()) R.drawable.eye else R.drawable.eye_closed
+    )
 
     LaunchedEffect(value) {
         isError.value = value.contains(" ")
@@ -159,7 +161,6 @@ fun NeoPasswordTextField(
                 readOnly = readOnly,
                 textStyle = textStyle.copy(color = if (enabled) Color.Black else Color.Gray),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                keyboardActions = keyboardActions,
                 visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                 interactionSource = interactionSource,
                 singleLine = true,

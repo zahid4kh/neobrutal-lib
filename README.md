@@ -49,7 +49,10 @@ dependencies {
 
 #### NeoButton
 
+![NeoButton](screenshots/neobutton.png)
+
 A standard button with the characteristic NeoBrutal 3D effect.
+(shadow must be fixed)
 
 ```kotlin
 NeoButton(
@@ -62,7 +65,10 @@ NeoButton(
 
 #### NeoIconButton
 
+![NeoIconButton](screenshots/neoiconbutton.png)
+
 A button with an icon and optional text.
+(width&height must be dynamic)
 
 ```kotlin
 NeoIconButton(
@@ -74,6 +80,8 @@ NeoIconButton(
 
 #### NeoOutlinedButton
 
+![NeoOutlinedButton](screenshots/neooutlinedbutton.png)
+
 An outlined button variant with transparent background.
 
 ```kotlin
@@ -84,6 +92,8 @@ NeoOutlinedButton(
 ```
 
 #### NeoToggleButton
+
+![NeoToggleButton](screenshots/neotogglebutton.png)
 
 A toggleable button that changes appearance based on its state.
 
@@ -100,6 +110,8 @@ NeoToggleButton(
 ### Input Components
 
 #### NeoTextField
+
+![NeoTextField](screenshots/neotextfield.png)
 
 A text input field with bold borders and shadow effects.
 
@@ -118,6 +130,8 @@ NeoTextField(
 
 #### NeoPasswordTextField
 
+![NeoPasswordTextField](screenshots/neopasswordtextfield.png)
+
 A specialized text field for password input with visibility toggle.
 
 ```kotlin
@@ -132,7 +146,51 @@ NeoPasswordTextField(
 )
 ```
 
+#### NeoEmailTextField
+
+![NeoEmailTextField](screenshots/neoemailtextfield.png)
+
+An email input field with validation that checks for the presence of '@' character.
+
+```kotlin
+var emailValue by remember { mutableStateOf("") }
+val emailErrorState = remember { mutableStateOf(false) }
+
+NeoEmailTextField(
+    value = emailValue,
+    onValueChange = { emailValue = it },
+    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+    isError = emailErrorState,
+    errorMessage = "Email must contain @"
+)
+```
+
+#### NeoEmailPasswordTextField
+
+![NeoEmailPasswordTextField](screenshots/neoemailpasswordtextfield.png)
+
+A combined component that includes both email and password fields with validation.
+
+```kotlin
+var emailValue by remember { mutableStateOf("") }
+var passwordValue by remember { mutableStateOf("") }
+val emailErrorState = remember { mutableStateOf(false) }
+val passwordErrorState = remember { mutableStateOf(false) }
+
+NeoEmailPasswordTextField(
+    emailValue = emailValue,
+    onEmailValueChange = { emailValue = it },
+    isEmailError = emailErrorState,
+    passwordValue = passwordValue,
+    onPasswordValueChange = { passwordValue = it },
+    isPasswordError = passwordErrorState,
+    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+)
+```
+
 #### NeoSlider
+
+![NeoSlider](screenshots/neoslider.png)
 
 A slider with a bold track and thumb design.
 
@@ -147,9 +205,27 @@ NeoSlider(
 )
 ```
 
+#### NeoCheckbox
+
+![NeoCheckbox](screenshots/neocheckbox.png)
+
+A checkbox with thick borders and bold visual feedback.
+
+```kotlin
+var isChecked by remember { mutableStateOf(false) }
+
+NeoCheckbox(
+    checked = isChecked,
+    onCheckedChange = { isChecked = it },
+    text = "I agree to the terms"
+)
+```
+
 ### Cards
 
 #### NeoBasicCard
+
+![NeoBasicCard](screenshots/neobasiccard.png)
 
 A simple card with title and content.
 
@@ -164,7 +240,10 @@ NeoBasicCard(
 
 #### NeoMediaCard
 
+![NeoMediaCard](screenshots/neomediacard.png)
+
 A card that displays an image with title, description, and actions.
+(width&height must be dynamic)
 
 ```kotlin
 NeoMediaCard(
@@ -189,7 +268,10 @@ NeoMediaCard(
 
 #### NeoProfileCard
 
+![NeoProfileCard](screenshots/neoprofilecard.png)
+
 A card designed to display user profiles.
+(width&height must be dynamic)
 
 ```kotlin
 NeoProfileCard(
@@ -214,7 +296,10 @@ NeoProfileCard(
 
 #### NeoActionCard
 
+![NeoActionCard](screenshots/neoactioncard.png)
+
 A card with an icon, title, description, and action buttons.
+(width&height must be dynamic)
 
 ```kotlin
 NeoActionCard(
@@ -239,6 +324,8 @@ NeoActionCard(
 
 #### NeoExpandableCard
 
+![NeoExpandableCard](screenshots/neoexpandablecard.png)
+
 A card that can be expanded to show additional content.
 
 ```kotlin
@@ -247,7 +334,8 @@ NeoExpandableCard(
     initiallyExpanded = false,
     content = {
         Text("This content is revealed when the card is expanded.")
-    }
+    },
+    modifier = Modifier.padding(horizontal = 16.dp)
 )
 ```
 
@@ -287,5 +375,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-
-
