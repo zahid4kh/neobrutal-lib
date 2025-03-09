@@ -39,7 +39,7 @@ Add the dependency to your app module's **build.gradle.kts** file:
 
 ```kotlin
 dependencies {
-    implementation("com.github.zahid4kh:neobrutal-lib:1.0.5")
+    implementation("com.github.zahid4kh:neobrutal-lib:1.0.7")
 }
 ```
 
