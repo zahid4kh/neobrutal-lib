@@ -2,7 +2,7 @@
 
 ## Copyright Notice
 
-**Copyright (c) 2024 Zahid**
+**Copyright (c) 2025 Zahid**
 
 ## MIT License Terms
 
