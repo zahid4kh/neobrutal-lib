@@ -205,6 +205,40 @@ NeoSlider(
 )
 ```
 
+#### NeoDropdown
+
+![NeoDropdown](screenshots/neodropdown.png)
+
+A dropdown menu with a solid rectangular button that opens a list of items with thick borders and bold styling.
+
+```kotlin
+data class Country(val name: String, val code: String) {
+    override fun toString(): String = name
+}
+
+val countries = listOf(
+    Country("United States", "US"),
+    Country("Canada", "CA"),
+    Country("United Kingdom", "GB"),
+    Country("Germany", "DE"),
+    Country("France", "FR"),
+    Country("Japan", "JP")
+)
+
+var selectedCountryIndex by remember { mutableStateOf(0) }
+
+NeoDropdown(
+    items = countries,
+    selectedIndex = selectedCountryIndex,
+    onItemSelected = { selectedCountryIndex = it },
+    modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp),
+    label = "Select a country",
+    selectedItemColor = Color(0xFF3C40C6)
+)
+```
+
 #### NeoCheckbox
 
 ![NeoCheckbox](screenshots/neocheckbox.png)
