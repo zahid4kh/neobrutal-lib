@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 
 /**
  * An outlined button in NeoBrutal style.
@@ -36,8 +40,6 @@ import androidx.compose.ui.unit.sp
  * @param text The text displayed on the button
  * @param onClick The callback invoked when the button is clicked
  * @param modifier Modifier to be applied to the button
- * @param width The width of the button (default is 180.dp)
- * @param height The height of the button (default is 48.dp)
  * @param borderColor The color of the button's border
  * @param textColor The color of the button text
  * @param shadowColor The color of the shadow effect
@@ -52,29 +54,34 @@ fun NeoOutlinedButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    width: Dp = 180.dp,
-    height: Dp = 48.dp,
     borderColor: Color = Color(0xFFFF5470),
     textColor: Color = Color(0xFFFF5470),
-    shadowColor: Color = Color.Black,
+    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     backgroundColor: Color = Color.Transparent,
-    shadowOffset: Dp = 8.dp,
+    shadowOffset: Dp = 6.dp,
     borderWidth: Dp = 3.dp,
     shape: Shape = RectangleShape,
     enabled: Boolean = true
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
+    LaunchedEffect(isPressed){
+        if (isPressed){
+            onClick()
+            delay(40)
+            isPressed = false
+        }
+
+    }
+
     Box(
         modifier = modifier
-            .width(width)
-            .height(height)
+            .wrapContentSize()
             .padding(bottom = shadowOffset, end = shadowOffset)
     ) {
         Box(
             modifier = Modifier
-                .width(width - shadowOffset)
-                .height(height - shadowOffset)
+                .matchParentSize()
                 .offset(x = shadowOffset, y = shadowOffset)
                 .background(Color.Transparent)
                 .border(width = borderWidth, color = shadowColor, shape = shape)
@@ -82,15 +89,13 @@ fun NeoOutlinedButton(
 
         Box(
             modifier = Modifier
-                .width(width - shadowOffset)
-                .height(height - shadowOffset)
+                .wrapContentSize()
                 .offset(
                     x = if (isPressed) shadowOffset / 2 else 0.dp,
                     y = if (isPressed) shadowOffset / 2 else 0.dp
                 )
                 .clickable(enabled = enabled) {
-                    isPressed = !isPressed
-                    onClick()
+                    isPressed = true
                 }
                 .background(backgroundColor, shape)
                 .border(width = borderWidth, color = borderColor, shape = shape),
@@ -103,7 +108,7 @@ fun NeoOutlinedButton(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 ),
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
             )
         }
     }
