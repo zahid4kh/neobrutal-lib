@@ -79,7 +79,6 @@ fun NeoBasicCard(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .wrapContentSize()
                     .padding(16.dp)
             ) {
