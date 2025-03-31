@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +21,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -37,8 +40,6 @@ import androidx.compose.ui.unit.sp
  * @param isActive Current toggle state of the button
  * @param onToggle Callback invoked when the toggle state changes
  * @param modifier Modifier to be applied to the button
- * @param width The width of the button (default is 160.dp)
- * @param height The height of the button (default is 48.dp)
  * @param activeColor Background color when the button is in active state
  * @param inactiveColor Background color when the button is in inactive state
  * @param activeTextColor Text color when the button is in active state
@@ -54,34 +55,31 @@ fun NeoToggleButton(
     isActive: Boolean,
     onToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    width: Dp = 165.dp,
-    height: Dp = 48.dp,
     activeColor: Color = Color(0xFF3C40C6),
-    inactiveColor: Color = Color(0xFFE9EAEC),
-    activeTextColor: Color = Color.White,
-    inactiveTextColor: Color = Color.Black,
-    shadowColor: Color = Color.Black,
-    shadowOffset: Dp = 8.dp,
+    inactiveColor: Color = Color(0xFFA71A25),
+    activeTextColor: Color = MaterialTheme.colorScheme.onBackground,
+    inactiveTextColor: Color = MaterialTheme.colorScheme.onBackground,
+    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
+    shadowOffset: Dp = 6.dp,
     shape: Shape = RectangleShape,
     enabled: Boolean = true
 ) {
+    val transparentColor = Color.Transparent
+
     Box(
         modifier = modifier
-            .width(width)
-            .height(height)
+            .wrapContentSize()
     ) {
         if (isActive) {
 
             Box(
                 modifier = Modifier
-                    .width(width - shadowOffset)
-                    .height(height - shadowOffset)
+                    .matchParentSize()
                     .background(shadowColor, shape)
             )
             Box(
                 modifier = Modifier
-                    .width(width - shadowOffset)
-                    .height(height - shadowOffset)
+                    .wrapContentSize()
                     .offset(x = shadowOffset / 2, y = shadowOffset / 2)
                     .clickable(enabled = enabled) {
                         onToggle(!isActive)
@@ -89,9 +87,9 @@ fun NeoToggleButton(
                     .background(activeColor, shape)
                     .drawBehind {
                         drawRect(
-                            color = shadowColor,
+                            color = transparentColor,
                             size = size,
-                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2f)
+                            style = Stroke(width = 2f)
                         )
                     },
                 contentAlignment = Alignment.Center
@@ -103,30 +101,28 @@ fun NeoToggleButton(
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     ),
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
                 )
             }
         } else {
             Box(
                 modifier = Modifier
-                    .width(width - shadowOffset)
-                    .height(height - shadowOffset)
-                    .offset(x = shadowOffset, y = shadowOffset)
+                    .matchParentSize()
+                    .offset(x = shadowOffset/2, y = shadowOffset/2)
                     .background(shadowColor, shape)
             )
             Box(
                 modifier = Modifier
-                    .width(width - shadowOffset)
-                    .height(height - shadowOffset)
+                    .wrapContentSize()
                     .clickable(enabled = enabled) {
                         onToggle(!isActive)
                     }
                     .background(inactiveColor, shape)
                     .drawBehind {
                         drawRect(
-                            color = shadowColor,
+                            color = transparentColor,
                             size = size,
-                            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2f)
+                            style = Stroke(width = 2f)
                         )
                     },
                 contentAlignment = Alignment.Center
@@ -138,7 +134,7 @@ fun NeoToggleButton(
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     ),
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
                 )
             }
         }
