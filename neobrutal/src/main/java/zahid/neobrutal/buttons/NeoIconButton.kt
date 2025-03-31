@@ -72,6 +72,9 @@ fun NeoIconButton(icon: ImageVector,
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
+    // might add this to drawBehind
+    // val transparentColor = Color.Transparent
+
     LaunchedEffect(isPressed){
         if (isPressed){
             onClick()
@@ -107,7 +110,7 @@ fun NeoIconButton(icon: ImageVector,
                     drawRect(
                         color = shadowColor,
                         size = size,
-                        style = Stroke(width = 2f)
+                        style = Stroke(width = 5f)
                     )
                 },
             contentAlignment = Alignment.Center
