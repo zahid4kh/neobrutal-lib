@@ -57,14 +57,15 @@ fun NeoToggleButton(
     modifier: Modifier = Modifier,
     activeColor: Color = Color(0xFF3C40C6),
     inactiveColor: Color = Color(0xFFA71A25),
-    activeTextColor: Color = MaterialTheme.colorScheme.onBackground,
+    activeTextColor: Color = Color(0xFFFFFFFF),
     inactiveTextColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowColor: Color = MaterialTheme.colorScheme.onBackground,
-    shadowOffset: Dp = 6.dp,
+    shadowOffset: Dp = 8.dp,
     shape: Shape = RectangleShape,
     enabled: Boolean = true
 ) {
-    val transparentColor = Color.Transparent
+    // might add to drawBehind
+    // val transparentColor = Color.Transparent
 
     Box(
         modifier = modifier
@@ -87,9 +88,9 @@ fun NeoToggleButton(
                     .background(activeColor, shape)
                     .drawBehind {
                         drawRect(
-                            color = transparentColor,
+                            color = shadowColor,
                             size = size,
-                            style = Stroke(width = 2f)
+                            style = Stroke(width = 5f)
                         )
                     },
                 contentAlignment = Alignment.Center
@@ -120,9 +121,9 @@ fun NeoToggleButton(
                     .background(inactiveColor, shape)
                     .drawBehind {
                         drawRect(
-                            color = transparentColor,
+                            color = shadowColor,
                             size = size,
-                            style = Stroke(width = 2f)
+                            style = Stroke(width = 5f)
                         )
                     },
                 contentAlignment = Alignment.Center
