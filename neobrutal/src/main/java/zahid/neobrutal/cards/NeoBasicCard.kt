@@ -51,7 +51,7 @@ fun NeoBasicCard(
     subtitleColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowOffset: Dp = 8.dp,
-    borderWidth: Dp = 0.dp,
+    borderWidth: Dp = 2.2.dp,
     shape: Shape = RectangleShape,
     content: @Composable () -> Unit,
 ) {
