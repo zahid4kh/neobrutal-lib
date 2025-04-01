@@ -59,7 +59,7 @@ fun NeoCheckbox(
     size: Dp = 24.dp,
     checkedColor: Color = Color(0xFF3C40C6),
     uncheckedColor: Color = MaterialTheme.colorScheme.background,
-    checkmarkColor: Color = MaterialTheme.colorScheme.background,
+    checkmarkColor: Color = Color.White,
     textColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowOffset: Dp = 3.dp,
