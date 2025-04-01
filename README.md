@@ -39,7 +39,7 @@ Add the dependency to your app module's **build.gradle.kts** file:
 
 ```kotlin
 dependencies {
-    implementation("com.github.zahid4kh:neobrutal-lib:1.0.8")
+    implementation("com.github.zahid4kh:neobrutal-lib:1.0.9")
 }
 ```
 
@@ -52,7 +52,6 @@ dependencies {
 ![NeoButton](screenshots/neobutton.png)
 
 A standard button with the characteristic NeoBrutal 3D effect.
-(shadow must be fixed)
 
 ```kotlin
 NeoButton(
@@ -68,7 +67,6 @@ NeoButton(
 ![NeoIconButton](screenshots/neoiconbutton.png)
 
 A button with an icon and optional text.
-(width&height must be dynamic)
 
 ```kotlin
 NeoIconButton(
@@ -186,6 +184,35 @@ NeoEmailPasswordTextField(
     isPasswordError = passwordErrorState,
     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
 )
+```
+
+#### NeoSwipeableCard
+
+![NeoSwipeableCard](screenshots/neoswipeablecard.png)
+
+A card component that can be swiped horizontally to reveal a delete button.
+
+```kotlin
+NeoSwipeableCard(
+    onDelete = {
+        viewModel.deleteItem(item.id)
+    }
+) {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = "Swipeable Item",
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp
+        )
+        Text(
+            text = "Swipe left to reveal delete button",
+            color = Color.Gray
+        )
+    }
+}
 ```
 
 #### NeoSlider
