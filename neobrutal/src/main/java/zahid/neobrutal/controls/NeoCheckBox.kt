@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,19 +58,16 @@ fun NeoCheckbox(
     enabled: Boolean = true,
     size: Dp = 24.dp,
     checkedColor: Color = Color(0xFF3C40C6),
-    uncheckedColor: Color = Color.White,
-    checkmarkColor: Color = Color.White,
-    textColor: Color = Color.Black,
-    shadowColor: Color = Color.Black,
+    uncheckedColor: Color = MaterialTheme.colorScheme.background,
+    checkmarkColor: Color = MaterialTheme.colorScheme.background,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowOffset: Dp = 3.dp,
-    borderWidth: Dp = 2.dp,
+    borderWidth: Dp = 2.2.dp,
     shape: Shape = RectangleShape
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable(enabled = enabled) {
-            onCheckedChange(!checked)
-        }
     ) {
         Box(
             modifier = Modifier
@@ -86,7 +84,13 @@ fun NeoCheckbox(
                 modifier = Modifier
                     .size(size)
                     .background(if (checked) checkedColor else uncheckedColor, shape)
-                    .border(width = borderWidth, color = shadowColor, shape = shape),
+                    .border(width = borderWidth, color = shadowColor, shape = shape)
+                    .clickable(
+                        enabled = enabled,
+                        onClick = {
+                            onCheckedChange(!checked)
+                        }
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 if (checked) {
@@ -99,6 +103,7 @@ fun NeoCheckbox(
                 }
             }
         }
+
         if (text != null) {
             Spacer(modifier = Modifier.width(8.dp))
             Text(
