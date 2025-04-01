@@ -1,11 +1,6 @@
 package zahid.neobrutal.inputs
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,14 +14,14 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -85,10 +80,10 @@ fun <T> NeoDropdown(
     enabled: Boolean = true,
     backgroundColor: Color = Color.White,
     selectedItemColor: Color = Color(0xFFFF5470),
-    textColor: Color = Color.Black,
-    labelColor: Color = Color.Black,
-    borderColor: Color = Color.Black,
-    shadowColor: Color = Color.Black,
+    textColor: Color = MaterialTheme.colorScheme.onBackground,
+    labelColor: Color = MaterialTheme.colorScheme.onBackground,
+    borderColor: Color = MaterialTheme.colorScheme.onBackground,
+    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowOffset: Dp = 4.dp,
     borderWidth: Dp = 2.dp,
     shape: Shape = RectangleShape,
@@ -100,10 +95,8 @@ fun <T> NeoDropdown(
         targetValue = if (expanded) 180f else 0f,
         label = "rotation"
     )
-    val scrollState = rememberScrollState()
 
-    Column(modifier = modifier) {
-        // Label
+    Column(modifier = modifier.wrapContentSize()) {
         if (label != null) {
             Text(
                 text = label,
@@ -116,14 +109,13 @@ fun <T> NeoDropdown(
 
         Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .wrapContentSize()
                 .zIndex(1f),
             contentAlignment = Alignment.Center
         ) {
-            // Shadow
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .matchParentSize()
                     .height(itemHeight)
                     .offset(x = shadowOffset, y = shadowOffset)
                     .background(shadowColor, shape)
@@ -131,7 +123,7 @@ fun <T> NeoDropdown(
 
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .wrapContentSize()
                     .height(itemHeight)
                     .background(backgroundColor, shape)
                     .border(width = borderWidth, color = borderColor, shape = shape)
@@ -142,7 +134,7 @@ fun <T> NeoDropdown(
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .wrapContentSize()
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -153,8 +145,7 @@ fun <T> NeoDropdown(
                         style = TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
-                        ),
-                        modifier = Modifier.weight(1f)
+                        )
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
@@ -173,33 +164,32 @@ fun <T> NeoDropdown(
 
         if (expanded) {
             Popup(
-                alignment = Alignment.TopEnd,
+                alignment = Alignment.TopCenter,
                 offset = IntOffset(0, 220),
                 onDismissRequest = { expanded = false },
                 properties = PopupProperties(focusable = true)
             ) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(300.dp)
                         .height(220.dp)
-                        .padding(top = 4.dp)
-                        .padding(horizontal = 16.dp)
                         .offset(x = shadowOffset, y = shadowOffset)
                         .background(shadowColor, shape)
                         .zIndex(0f)
+
                 ) {
                     Box(
                         modifier = Modifier
+                            .wrapContentSize()
                             .fillMaxWidth()
-                            .wrapContentHeight()
                             .clip(shape)
                             .background(backgroundColor)
-                            .border(width = borderWidth, color = borderColor, shape = shape)
+                            .border(width = borderWidth, color = borderColor, shape = shape),
+                        contentAlignment = Alignment.Center
                     ) {
                         LazyColumn(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp)
+                                .wrapContentWidth()
                         ) {
                             item{
                                 items.forEachIndexed { index, item ->
@@ -207,6 +197,7 @@ fun <T> NeoDropdown(
 
                                     Box(
                                         modifier = Modifier
+                                            .wrapContentSize()
                                             .fillMaxWidth()
                                             .height(itemHeight)
                                             .background(
@@ -217,7 +208,7 @@ fun <T> NeoDropdown(
                                                 expanded = false
                                             }
                                             .padding(horizontal = 16.dp),
-                                        contentAlignment = Alignment.CenterStart
+                                        contentAlignment = Alignment.Center
                                     ) {
                                         Text(
                                             text = item.toString(),
