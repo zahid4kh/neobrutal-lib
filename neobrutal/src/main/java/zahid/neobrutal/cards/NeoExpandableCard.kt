@@ -7,6 +7,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,10 +17,13 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,7 +54,6 @@ import androidx.compose.ui.zIndex
  * based on its content and parent constraints.
  *
  * @param title The title text for the card header
- * @param content The composable content to display when expanded
  * @param modifier Modifier to be applied to the card (controls sizing)
  * @param initiallyExpanded Whether the card should start expanded
  * @param backgroundColor The background color of the card
@@ -60,20 +63,21 @@ import androidx.compose.ui.zIndex
  * @param shadowOffset How far the shadow is offset from the card
  * @param borderWidth The width of the card border
  * @param shape The shape of the card
+ * @param content The composable content to display when expanded
  */
 @Composable
 fun NeoExpandableCard(
     title: String,
-    content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     initiallyExpanded: Boolean = false,
-    backgroundColor: Color = Color.White,
-    headerColor: Color = Color(0xFFF0F0F0),
-    titleColor: Color = Color.Black,
-    shadowColor: Color = Color.Black,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    headerColor: Color = MaterialTheme.colorScheme.background,
+    titleColor: Color = MaterialTheme.colorScheme.onBackground,
+    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowOffset: Dp = 8.dp,
     borderWidth: Dp = 2.dp,
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    content: @Composable () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(initiallyExpanded) }
     val rotationState by animateFloatAsState(
@@ -81,82 +85,75 @@ fun NeoExpandableCard(
         label = "rotation"
     )
 
-    Box(modifier = modifier) {
-        var contentSize by remember { mutableStateOf(IntSize.Zero) }
-        val density = LocalDensity.current
+    Box(
+        modifier = modifier
+            .wrapContentSize()
+            .padding(bottom = shadowOffset, end = shadowOffset)
+    ) {
 
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = shadowOffset, bottom = shadowOffset)
+                .matchParentSize()
                 .offset(x = shadowOffset, y = shadowOffset)
                 .background(shadowColor, shape)
-                .zIndex(0f)
-                .then(
-                    if (contentSize != IntSize.Zero) {
-                        with(density) {
-                            Modifier.size(
-                                width = contentSize.width.toDp(),
-                                height = contentSize.height.toDp()
-                            )
-                        }
-                    } else Modifier
-                )
         )
 
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = shadowOffset, bottom = shadowOffset)
+                .wrapContentSize()
+                .offset(x = 0.dp, y = 0.dp)
                 .background(backgroundColor, shape)
                 .border(width = borderWidth, color = shadowColor, shape = shape)
-                .onSizeChanged { contentSize = it }
-                .zIndex(1f)
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(headerColor)
-                    .clickable { expanded = !expanded }
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .wrapContentSize()
             ) {
-                Text(
-                    text = title,
-                    color = titleColor,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(1f)
-                )
 
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowDown,
-                    contentDescription = if (expanded) "Collapse" else "Expand",
+                Row(
                     modifier = Modifier
-                        .size(24.dp)
-                        .rotate(rotationState),
-                    tint = titleColor
-                )
-            }
-
-            HorizontalDivider(
-                thickness = borderWidth,
-                color = shadowColor
-            )
-
-            AnimatedVisibility(
-                visible = expanded,
-                enter = expandVertically(),
-                exit = shrinkVertically()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                        .wrapContentSize()
+                        .background(headerColor)
+                        .clickable { expanded = !expanded }
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    content()
+                    Text(
+                        text = title,
+                        color = titleColor,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = if (expanded) "Collapse" else "Expand",
+                        modifier = Modifier
+                            .size(24.dp)
+                            .rotate(rotationState),
+                        tint = titleColor
+                    )
+                }
+
+                HorizontalDivider(
+                    thickness = borderWidth,
+                    color = shadowColor
+                )
+
+                AnimatedVisibility(
+                    visible = expanded,
+                    enter = expandVertically(),
+                    exit = shrinkVertically()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(16.dp)
+                    ) {
+                        content()
+                    }
                 }
             }
         }
