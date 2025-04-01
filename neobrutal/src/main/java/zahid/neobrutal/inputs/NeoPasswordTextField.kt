@@ -1,8 +1,5 @@
 package zahid.neobrutal.inputs
 
-import android.R.attr.fontFamily
-import android.R.attr.fontWeight
-import android.R.attr.singleLine
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,16 +9,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,7 +35,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -65,7 +62,6 @@ import zahid.neobrutal.R
  * @param leadingIcon Optional icon to display at the start of the text field
  * @param trailingIcon Optional icon to display at the end of the text field
  * @param enabled Whether the text field is enabled
- * @param isError Whether the text field has an error or not
  * @param readOnly Whether the text field is read-only
  * @param keyboardOptions Options controlling keyboard behavior
  * @param keyboardActions Actions to perform based on keyboard input
@@ -105,15 +101,15 @@ fun NeoPasswordTextField(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
-    backgroundColor: Color = Color.White,
-    focusedBorderColor: Color = Color(0xFFFF5470),
-    unfocusedBorderColor: Color = Color.Black,
-    labelColor: Color = Color.Black,
-    placeholderColor: Color = Color.Gray,
-    iconTint: Color = Color.Black,
-    shadowColor: Color = Color.Black,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    focusedBorderColor: Color = MaterialTheme.colorScheme.onBackground,
+    unfocusedBorderColor: Color = MaterialTheme.colorScheme.outline,
+    labelColor: Color = MaterialTheme.colorScheme.onBackground,
+    placeholderColor: Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    iconTint: Color = MaterialTheme.colorScheme.onBackground,
+    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowOffset: Dp = 4.dp,
-    borderWidth: Dp = 2.dp,
+    borderWidth: Dp = 2.2.dp,
     shape: Shape = RectangleShape
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -134,7 +130,9 @@ fun NeoPasswordTextField(
         isError.value = value.contains(" ")
     }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier
+        .wrapContentSize()
+    ) {
         if (label != null) {
             Text(
                 text = label,
@@ -145,10 +143,12 @@ fun NeoPasswordTextField(
             )
         }
 
-        Box {
+        Box(modifier = Modifier
+            .wrapContentSize()
+        ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .matchParentSize()
                     .height(48.dp)
                     .offset(x = shadowOffset, y = shadowOffset)
                     .background(shadowColor, shape)
@@ -159,21 +159,21 @@ fun NeoPasswordTextField(
                 onValueChange = onValueChange,
                 enabled = enabled,
                 readOnly = readOnly,
-                textStyle = textStyle.copy(color = if (enabled) Color.Black else Color.Gray),
+                textStyle = textStyle.copy(color = if (enabled) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                 interactionSource = interactionSource,
                 singleLine = true,
                 cursorBrush = SolidColor(focusedBorderColor),
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .wrapContentSize()
                     .background(backgroundColor, shape)
                     .border(width = borderWidth, color = borderColor, shape = shape),
                 decorationBox = { innerTextField ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .wrapContentSize()
                             .height(48.dp)
                             .padding(horizontal = 8.dp)
                     ) {
@@ -186,7 +186,6 @@ fun NeoPasswordTextField(
                         Spacer(modifier = Modifier.width(8.dp))
 
                         Box(
-                            modifier = Modifier.weight(1f),
                             contentAlignment = Alignment.CenterStart
                         ) {
                             if (value.isEmpty() && placeholder != null) {
