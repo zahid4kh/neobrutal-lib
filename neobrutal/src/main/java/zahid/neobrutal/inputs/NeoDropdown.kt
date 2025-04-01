@@ -78,7 +78,7 @@ fun <T> NeoDropdown(
     modifier: Modifier = Modifier,
     label: String? = null,
     enabled: Boolean = true,
-    backgroundColor: Color = Color.White,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
     selectedItemColor: Color = Color(0xFFFF5470),
     textColor: Color = MaterialTheme.colorScheme.onBackground,
     labelColor: Color = MaterialTheme.colorScheme.onBackground,
