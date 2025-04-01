@@ -22,7 +22,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -60,10 +59,10 @@ fun NeoSlider(
     steps: Int = 0,
     trackHeight: Dp = 20.dp,
     thumbSize: Dp = 24.dp,
-    trackColor: Color = MaterialTheme.colorScheme.background,
+    trackColor: Color = MaterialTheme.colorScheme.onBackground,
     activeTrackColor: Color = Color(0xFFFF5470),
     thumbColor: Color = Color(0xFF3C40C6),
-    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
+    shadowColor: Color = MaterialTheme.colorScheme.background,
     shadowOffset: Dp = 4.dp,
     borderWidth: Dp = 2.dp,
     shape: Shape = RectangleShape
@@ -77,13 +76,6 @@ fun NeoSlider(
                 start = thumbSize / 2
             )
     ) {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .offset(x = shadowOffset, y = shadowOffset)
-                .clip(shape)
-                .background(shadowColor)
-        )
 
         Slider(
             value = value,
@@ -93,13 +85,6 @@ fun NeoSlider(
             steps = steps,
             modifier = Modifier
                 .fillMaxWidth()
-                .drawBehind {
-                    drawRect(
-                        color = shadowColor,
-                        size = size,
-                        style = Stroke(width = borderWidth.toPx())
-                    )
-                }
                 .height(trackHeight)
                 .clip(shape),
             thumb = {
@@ -114,7 +99,7 @@ fun NeoSlider(
                             drawRect(
                                 color = shadowColor,
                                 size = size,
-                                topLeft = androidx.compose.ui.geometry.Offset(
+                                topLeft = Offset(
                                     shadowOffset.toPx(),
                                     shadowOffset.toPx()
                                 ),
