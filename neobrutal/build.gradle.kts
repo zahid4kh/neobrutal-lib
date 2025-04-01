@@ -51,6 +51,7 @@ android {
 
 dependencies {
     implementation(libs.ui)
+    implementation (libs.androidx.material)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
