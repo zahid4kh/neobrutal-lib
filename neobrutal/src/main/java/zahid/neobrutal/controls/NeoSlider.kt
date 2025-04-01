@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
@@ -59,10 +60,10 @@ fun NeoSlider(
     steps: Int = 0,
     trackHeight: Dp = 20.dp,
     thumbSize: Dp = 24.dp,
-    trackColor: Color = Color.LightGray,
-    activeTrackColor: Color = Color(0xFF3C40C6),
+    trackColor: Color = MaterialTheme.colorScheme.background,
+    activeTrackColor: Color = Color(0xFFFF5470),
     thumbColor: Color = Color(0xFF3C40C6),
-    shadowColor: Color = Color.Black,
+    shadowColor: Color = MaterialTheme.colorScheme.onBackground,
     shadowOffset: Dp = 4.dp,
     borderWidth: Dp = 2.dp,
     shape: Shape = RectangleShape
@@ -78,8 +79,7 @@ fun NeoSlider(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(trackHeight)
+                .matchParentSize()
                 .offset(x = shadowOffset, y = shadowOffset)
                 .clip(shape)
                 .background(shadowColor)
@@ -111,11 +111,10 @@ fun NeoSlider(
                         .size(thumbSize)
                         .offset(y = -(shadowOffset / 2))
                         .drawBehind {
-                            // Draw shadow for thumb
                             drawRect(
                                 color = shadowColor,
                                 size = size,
-                                topLeft = Offset(
+                                topLeft = androidx.compose.ui.geometry.Offset(
                                     shadowOffset.toPx(),
                                     shadowOffset.toPx()
                                 ),
