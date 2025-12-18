@@ -7,12 +7,11 @@ plugins {
 
 android {
     namespace = "zahid.neobrutal"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 28
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
