@@ -1,19 +1,10 @@
 package zahid.neobrutal.buttons
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,18 +16,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import zahid.neobrutal.shared.NeoButtonSurface
 
 /**
  * A NeoBrutal button with an icon and optional text.
@@ -58,7 +48,7 @@ import kotlinx.coroutines.delay
  * @param enabled Whether the button is enabled
  */
 @Composable
-fun NeoIconButton(icon: ImageVector,
+fun NeoIconButton(icon: Painter,
                   onClick: () -> Unit,
                   modifier: Modifier = Modifier,
                   text: String? = null,
@@ -72,71 +62,47 @@ fun NeoIconButton(icon: ImageVector,
 ) {
     var isPressed by remember { mutableStateOf(false) }
 
-    // might add this to drawBehind
-    // val transparentColor = Color.Transparent
-
-    LaunchedEffect(isPressed){
-        if (isPressed){
-            onClick()
+    LaunchedEffect(isPressed) {
+        if (isPressed) {
             delay(40)
             isPressed = false
         }
-
     }
-    Box(
-        modifier = modifier
-            .wrapContentSize()
-            .padding(bottom = shadowOffset, end = shadowOffset)
-    ) {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .offset(x = shadowOffset, y = shadowOffset)
-                .border(width = 0.dp, color = MaterialTheme.colorScheme.onSurface)
-                .background(shadowColor, shape)
-        )
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .offset(
-                    x = if (isPressed) shadowOffset / 2 else 0.dp,
-                    y = if (isPressed) shadowOffset / 2 else 0.dp
-                )
-                .clickable(enabled = enabled) {
-                    isPressed = true
-                }
-                .background(backgroundColor, shape)
-                .drawBehind {
-                    drawRect(
-                        color = shadowColor,
-                        size = size,
-                        style = Stroke(width = 5f)
-                    )
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Row(
-                modifier = Modifier.padding(12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = text ?: "Button icon",
-                    tint = iconTint,
-                    modifier = Modifier.size(24.dp)
-                )
 
-                if (!text.isNullOrEmpty()) {
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = text,
-                        color = textColor,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        )
+    NeoButtonSurface(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        shadowColor = shadowColor,
+        shadowOffset = shadowOffset,
+        shape = shape,
+        pressed = isPressed,
+        enabled = enabled,
+        onClick = {
+            isPressed = true
+            onClick()
+        }
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = text ?: "Button icon",
+                tint = iconTint,
+                modifier = Modifier.size(24.dp)
+            )
+
+            if (!text.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = text,
+                    color = textColor,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
                     )
-                }
+                )
             }
         }
     }

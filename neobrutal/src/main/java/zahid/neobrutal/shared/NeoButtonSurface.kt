@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun NeoSurface(
+internal fun NeoButtonSurface(
     modifier: Modifier = Modifier,
     backgroundColor: Color,
     shadowColor: Color,
