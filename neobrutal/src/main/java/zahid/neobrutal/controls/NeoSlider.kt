@@ -1,8 +1,5 @@
 package zahid.neobrutal.controls
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,17 +11,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import zahid.neobrutal.shared.NeoControlSurface
 
 /**
  * A slider component in NeoBrutal style.
@@ -88,27 +82,17 @@ fun NeoSlider(
                 .height(trackHeight)
                 .clip(shape),
             thumb = {
-                val interactionSource = remember { MutableInteractionSource() }
-                SliderDefaults.Thumb(
-                    interactionSource = interactionSource,
-                    thumbSize = DpSize(thumbSize, thumbSize),
-                    modifier = Modifier
-                        .size(thumbSize)
-                        .offset(y = -(shadowOffset / 2))
-                        .drawBehind {
-                            drawRect(
-                                color = shadowColor,
-                                size = size,
-                                topLeft = Offset(
-                                    shadowOffset.toPx(),
-                                    shadowOffset.toPx()
-                                ),
-                            )
-                        }
-                        .clip(shape)
-                        .background(thumbColor)
-                        .border(width = borderWidth, color = shadowColor, shape = shape)
-                )
+                NeoControlSurface(
+                    modifier = Modifier.offset(y = -(shadowOffset / 2)),
+                    backgroundColor = thumbColor,
+                    shadowColor = shadowColor,
+                    shadowOffset = shadowOffset,
+                    borderWidth = borderWidth,
+                    shape = shape,
+                    reserveShadowSpace = false
+                ) {
+                    Box(modifier = Modifier.size(thumbSize))
+                }
             },
             colors = SliderDefaults.colors(
                 activeTrackColor = activeTrackColor,
