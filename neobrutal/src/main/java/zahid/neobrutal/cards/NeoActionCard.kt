@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,11 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import zahid.neobrutal.shared.NeoCardSurface
 
 /**
  * An action card component in NeoBrutal style.
@@ -51,7 +50,7 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun NeoActionCard(
-    icon: ImageVector,
+    icon: Painter,
     title: String,
     description: String,
     modifier: Modifier = Modifier,
@@ -67,70 +66,56 @@ fun NeoActionCard(
     shape: Shape = RectangleShape,
     actions: @Composable () -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .wrapContentSize()
-            .padding(bottom = shadowOffset, end = shadowOffset)
+    NeoCardSurface(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        shadowColor = shadowColor,
+        shadowOffset = shadowOffset,
+        borderWidth = borderWidth,
+        shape = shape
     ) {
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .offset(x = shadowOffset, y = shadowOffset)
-                .background(shadowColor, shape)
-        )
-
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .offset(x = 0.dp, y = 0.dp)
-                .background(backgroundColor, shape)
-                .border(width = borderWidth, color = shadowColor, shape = shape)
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 12.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(bottom = 12.dp)
+                Box(
+                    modifier = Modifier
+                        .size(iconSize)
+                        .background(accentColor)
+                        .border(width = borderWidth, color = shadowColor),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(iconSize)
-                            .background(accentColor)
-                            .border(width = borderWidth, color = shadowColor),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                            tint = iconTint,
-                            modifier = Modifier.size(iconSize * 0.6f)
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    Text(
-                        text = title,
-                        color = titleColor,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                    Icon(
+                        painter = icon,
+                        contentDescription = null,
+                        tint = iconTint,
+                        modifier = Modifier.size(iconSize * 0.6f)
                     )
                 }
 
-                Text(
-                    text = description,
-                    color = descriptionColor,
-                    fontSize = 14.sp,
-                )
+                Spacer(modifier = Modifier.width(12.dp))
 
-                Box(
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                ) {
-                    actions()
-                }
+                Text(
+                    text = title,
+                    color = titleColor,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Text(
+                text = description,
+                color = descriptionColor,
+                fontSize = 14.sp,
+            )
+
+            Box(
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                actions()
             }
         }
     }

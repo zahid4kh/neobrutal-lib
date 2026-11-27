@@ -5,22 +5,14 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,14 +28,13 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
+import zahid.neobrutal.R
+import zahid.neobrutal.shared.NeoCardSurface
 
 /**
  * An expandable card component in NeoBrutal style with dynamic sizing.
@@ -85,75 +76,60 @@ fun NeoExpandableCard(
         label = "rotation"
     )
 
-    Box(
-        modifier = modifier
-            .wrapContentSize()
-            .padding(bottom = shadowOffset, end = shadowOffset)
+    NeoCardSurface(
+        modifier = modifier,
+        backgroundColor = backgroundColor,
+        shadowColor = shadowColor,
+        shadowOffset = shadowOffset,
+        borderWidth = borderWidth,
+        shape = shape
     ) {
-
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .offset(x = shadowOffset, y = shadowOffset)
-                .background(shadowColor, shape)
-        )
-
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .offset(x = 0.dp, y = 0.dp)
-                .background(backgroundColor, shape)
-                .border(width = borderWidth, color = shadowColor, shape = shape)
+        Column(
+            modifier = Modifier.wrapContentSize()
         ) {
-            Column(
+            Row(
                 modifier = Modifier
                     .wrapContentSize()
+                    .background(headerColor)
+                    .clickable { expanded = !expanded }
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-
-                Row(
-                    modifier = Modifier
-                        .wrapContentSize()
-                        .background(headerColor)
-                        .clickable { expanded = !expanded }
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = title,
-                        color = titleColor,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowDown,
-                        contentDescription = if (expanded) "Collapse" else "Expand",
-                        modifier = Modifier
-                            .size(24.dp)
-                            .rotate(rotationState),
-                        tint = titleColor
-                    )
-                }
-
-                HorizontalDivider(
-                    thickness = borderWidth,
-                    color = shadowColor
+                Text(
+                    text = title,
+                    color = titleColor,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(1f)
                 )
 
-                AnimatedVisibility(
-                    visible = expanded,
-                    enter = expandVertically(),
-                    exit = shrinkVertically()
+                Icon(
+                    painter = painterResource(R.drawable.arrow_downward),
+                    contentDescription = if (expanded) "Collapse" else "Expand",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .rotate(rotationState),
+                    tint = titleColor
+                )
+            }
+
+            HorizontalDivider(
+                thickness = borderWidth,
+                color = shadowColor
+            )
+
+            AnimatedVisibility(
+                visible = expanded,
+                enter = expandVertically(),
+                exit = shrinkVertically()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .padding(16.dp)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .padding(16.dp)
-                    ) {
-                        content()
-                    }
+                    content()
                 }
             }
         }
