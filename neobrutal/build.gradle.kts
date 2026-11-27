@@ -79,7 +79,7 @@ publishing {
                 url.set("https://github.com/zahid4kh/neobrutal-lib")
                 licenses {
                     license {
-                        name.set("MIT License with Commons Clause")
+                        name.set("MIT License")
                         url.set("https://github.com/zahid4kh/neobrutal-lib/blob/main/LICENSE.md")
                     }
                 }
