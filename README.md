@@ -23,7 +23,7 @@ Add the dependency to your app module's **build.gradle.kts** file:
 
 ```kotlin
 dependencies {
-    implementation("io.github.zahid4kh:neobrutal:1.1.0")
+    implementation("io.github.zahid4kh:neobrutal:1.1.1")
 }
 ```
 
