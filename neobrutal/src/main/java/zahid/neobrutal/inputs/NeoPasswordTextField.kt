@@ -57,9 +57,11 @@ import zahid.neobrutal.shared.NeoInputSurface
  * @param modifier Modifier to be applied to the text field
  * @param label Optional label to display above the text field
  * @param placeholder Optional placeholder text displayed when the field is empty
+ * @param errorMessage Message shown below the field when [isError] is true
  * @param leadingIcon Optional icon to display at the start of the text field
  * @param trailingIcon Optional icon to display at the end of the text field
  * @param enabled Whether the text field is enabled
+ * @param isError State set to true when [value] contains a space
  * @param readOnly Whether the text field is read-only
  * @param keyboardOptions Options controlling keyboard behavior
  * @param keyboardActions Actions to perform based on keyboard input

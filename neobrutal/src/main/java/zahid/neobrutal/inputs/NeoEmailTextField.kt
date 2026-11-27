@@ -39,15 +39,17 @@ import zahid.neobrutal.shared.NeoInputSurface
  * A text field component in NeoBrutal style.
  *
  * This text field features thick borders, sharp corners, and a monospaced font
- * following NeoBrutal design principles. It includes options for labels, icons,
- * and changes border color on focus to provide clear visual feedback.
+ * following NeoBrutal design principles. It shows a label, and the border color
+ * changes on focus or when the value is invalid.
  *
  * @param value Current text value
  * @param onValueChange Callback invoked when the text changes
  * @param modifier Modifier to be applied to the text field
  * @param label Optional label to display above the text field
  * @param placeholder Optional placeholder text displayed when the field is empty
+ * @param errorMessage Message shown below the field when [isError] is true
  * @param enabled Whether the text field is enabled
+ * @param isError State set to true when [value] does not contain `@`
  * @param readOnly Whether the text field is read-only
  * @param keyboardOptions Options controlling keyboard behavior
  * @param keyboardActions Actions to perform based on keyboard input

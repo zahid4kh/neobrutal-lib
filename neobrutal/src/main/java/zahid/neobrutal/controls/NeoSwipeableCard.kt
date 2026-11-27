@@ -43,6 +43,23 @@ import kotlin.math.roundToInt
 
 enum class DragState { NotSwiped, Swiped }
 
+/**
+ * A card that swipes horizontally to reveal a delete button.
+ *
+ * Dragging left moves the card and its shadow together. Once the drag passes
+ * halfway, a delete button scales in. Tapping that button calls [onDelete].
+ *
+ * @param modifier Modifier to be applied to the card
+ * @param onDelete Callback invoked when the delete button is clicked
+ * @param backgroundColor Background color of the card face
+ * @param shadowColor Color of the card shadow and the delete button border
+ * @param deleteButtonColor Background color of the delete button
+ * @param deleteIconColor Tint of the delete icon
+ * @param shadowOffset How far the shadow is offset from the card
+ * @param borderWidth Width of the card border and the delete button border
+ * @param shape Shape of the card
+ * @param content Content drawn inside the card
+ */
 @Composable
 fun NeoSwipeableCard(
     modifier: Modifier = Modifier,
