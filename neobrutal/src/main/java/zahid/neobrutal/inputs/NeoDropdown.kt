@@ -2,7 +2,6 @@ package zahid.neobrutal.inputs
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,15 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,11 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -44,6 +40,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
+import zahid.neobrutal.R
+import zahid.neobrutal.shared.NeoInputSurface
 
 /**
  * A dropdown menu component in NeoBrutal style.
@@ -107,58 +105,44 @@ fun <T> NeoDropdown(
             )
         }
 
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .zIndex(1f),
-            contentAlignment = Alignment.Center
+        NeoInputSurface(
+            modifier = Modifier.zIndex(1f),
+            backgroundColor = backgroundColor,
+            shadowColor = shadowColor,
+            borderColor = borderColor,
+            shadowOffset = shadowOffset,
+            borderWidth = borderWidth,
+            shape = shape,
+            enabled = enabled,
+            onClick = { expanded = !expanded }
         ) {
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .height(itemHeight)
-                    .offset(x = shadowOffset, y = shadowOffset)
-                    .background(shadowColor, shape)
-            )
-
-            Box(
+            Row(
                 modifier = Modifier
                     .wrapContentSize()
                     .height(itemHeight)
-                    .background(backgroundColor, shape)
-                    .border(width = borderWidth, color = borderColor, shape = shape)
-                    .clickable(enabled = enabled) {
-                        expanded = !expanded
-                    },
-                contentAlignment = Alignment.Center
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
+                Text(
+                    text = if (items.isNotEmpty() && selectedIndex in items.indices)
+                        items[selectedIndex].toString() else "Select an item",
+                    color = textColor,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Icon(
+                    painter = painterResource(R.drawable.arrow_downward),
+                    contentDescription = "Expand",
+                    tint = textColor,
                     modifier = Modifier
-                        .wrapContentSize()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = if (items.isNotEmpty() && selectedIndex in items.indices)
-                            items[selectedIndex].toString() else "Select an item",
-                        color = textColor,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.width(8.dp))
-
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Expand",
-                        tint = textColor,
-                        modifier = Modifier
-                            .size(24.dp)
-                            .rotate(rotationState)
-                    )
-                }
+                        .size(24.dp)
+                        .rotate(rotationState)
+                )
             }
         }
 
@@ -169,64 +153,56 @@ fun <T> NeoDropdown(
                 onDismissRequest = { expanded = false },
                 properties = PopupProperties(focusable = true)
             ) {
-                Box(
+                NeoInputSurface(
                     modifier = Modifier
                         .width(300.dp)
-                        .height(220.dp)
-                        .offset(x = shadowOffset, y = shadowOffset)
-                        .background(shadowColor, shape)
-                        .zIndex(0f)
-
+                        .zIndex(0f),
+                    backgroundColor = backgroundColor,
+                    shadowColor = shadowColor,
+                    borderColor = borderColor,
+                    shadowOffset = shadowOffset,
+                    borderWidth = borderWidth,
+                    shape = shape
                 ) {
-                    Box(
+                    LazyColumn(
                         modifier = Modifier
-                            .wrapContentSize()
                             .fillMaxWidth()
-                            .clip(shape)
-                            .background(backgroundColor)
-                            .border(width = borderWidth, color = borderColor, shape = shape),
-                        contentAlignment = Alignment.Center
+                            .heightIn(max = maxHeight)
                     ) {
-                        LazyColumn(
-                            modifier = Modifier
-                                .wrapContentWidth()
-                        ) {
-                            item{
-                                items.forEachIndexed { index, item ->
-                                    val isSelected = index == selectedIndex
+                        item{
+                            items.forEachIndexed { index, item ->
+                                val isSelected = index == selectedIndex
 
-                                    Box(
-                                        modifier = Modifier
-                                            .wrapContentSize()
-                                            .fillMaxWidth()
-                                            .height(itemHeight)
-                                            .background(
-                                                if (isSelected) selectedItemColor else backgroundColor
-                                            )
-                                            .clickable {
-                                                onItemSelected(index)
-                                                expanded = false
-                                            }
-                                            .padding(horizontal = 16.dp),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Text(
-                                            text = item.toString(),
-                                            color = if (isSelected) Color.White else textColor,
-                                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                            fontSize = 16.sp
+                                Box(
+                                    modifier = Modifier
+                                        .wrapContentSize()
+                                        .fillMaxWidth()
+                                        .height(itemHeight)
+                                        .background(
+                                            if (isSelected) selectedItemColor else backgroundColor
                                         )
-                                    }
+                                        .clickable {
+                                            onItemSelected(index)
+                                            expanded = false
+                                        }
+                                        .padding(horizontal = 16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = item.toString(),
+                                        color = if (isSelected) Color.White else textColor,
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        fontSize = 16.sp
+                                    )
+                                }
 
-                                    if (index < items.size - 1) {
-                                        HorizontalDivider(
-                                            thickness = 1.dp,
-                                            color = borderColor.copy(alpha = 0.3f)
-                                        )
-                                    }
+                                if (index < items.size - 1) {
+                                    HorizontalDivider(
+                                        thickness = 1.dp,
+                                        color = borderColor.copy(alpha = 0.3f)
+                                    )
                                 }
                             }
-
                         }
                     }
                 }

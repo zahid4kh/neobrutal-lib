@@ -1,7 +1,5 @@
 package zahid.neobrutal.inputs
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
@@ -9,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,7 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +34,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import zahid.neobrutal.shared.NeoInputSurface
 
 /**
  * A text field component in NeoBrutal style.
@@ -77,8 +75,8 @@ fun NeoTextField(
     modifier: Modifier = Modifier,
     label: String? = null,
     placeholder: String? = null,
-    leadingIcon: ImageVector? = null,
-    trailingIcon: ImageVector? = null,
+    leadingIcon: Painter? = null,
+    trailingIcon: Painter? = null,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -117,17 +115,14 @@ fun NeoTextField(
             )
         }
 
-        Box(
-            modifier = modifier.wrapContentSize()
+        NeoInputSurface(
+            backgroundColor = backgroundColor,
+            shadowColor = shadowColor,
+            borderColor = borderColor,
+            shadowOffset = shadowOffset,
+            borderWidth = borderWidth,
+            shape = shape
         ) {
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .height(48.dp)
-                    .offset(x = shadowOffset, y = shadowOffset)
-                    .background(shadowColor, shape)
-            )
-
             BasicTextField(
                 value = value,
                 onValueChange = onValueChange,
@@ -140,10 +135,7 @@ fun NeoTextField(
                 interactionSource = interactionSource,
                 singleLine = true,
                 cursorBrush = SolidColor(focusedBorderColor),
-                modifier = Modifier
-                    .wrapContentSize()
-                    .background(backgroundColor, shape)
-                    .border(width = borderWidth, color = borderColor, shape = shape),
+                modifier = Modifier.wrapContentSize(),
                 decorationBox = { innerTextField ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -154,7 +146,7 @@ fun NeoTextField(
                     ) {
                         if (leadingIcon != null) {
                             Icon(
-                                imageVector = leadingIcon,
+                                painter = leadingIcon,
                                 contentDescription = null,
                                 tint = iconTint,
                                 modifier = Modifier.size(24.dp)
@@ -179,7 +171,7 @@ fun NeoTextField(
                         if (trailingIcon != null) {
                             Spacer(modifier = Modifier.width(8.dp))
                             Icon(
-                                imageVector = trailingIcon,
+                                painter = trailingIcon,
                                 contentDescription = null,
                                 tint = iconTint,
                                 modifier = Modifier.size(24.dp)

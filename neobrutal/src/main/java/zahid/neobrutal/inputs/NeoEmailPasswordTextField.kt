@@ -47,21 +47,3 @@ fun NeoEmailPasswordTextField(
         )
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun NeoEmailPasswordTextFieldPreview(){
-//    var isPasswordError = remember { mutableStateOf(false) }
-//    var isEmailError = remember { mutableStateOf(false) }
-//
-//    NeoEmailPasswordTextField(
-//        passwordValue = "",
-//        onPasswordValueChange = {},
-//        isPasswordError = isPasswordError,
-//        isPasswordEnabled = true,
-//        isEmailError = isEmailError,
-//        emailValue = "",
-//        onEmailValueChange = {},
-//        isEmailEnabled = true
-//    )
-//}
