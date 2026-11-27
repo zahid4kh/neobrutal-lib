@@ -2,7 +2,7 @@
 
 A modern Jetpack Compose UI library featuring Neo-Brutalist design principles with bold geometric shapes, thick borders, high contrast colors, and distinctive shadow effects.
 
-[![](https://jitpack.io/v/zahid4kh/neobrutal-lib.svg)](https://jitpack.io/#zahid4kh/neobrutal-lib)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.zahid4kh/neobrutal)](https://central.sonatype.com/artifact/io.github.zahid4kh/neobrutal)
 
 ## Introduction
 
@@ -19,27 +19,11 @@ This library provides ready-to-use components that follow these design principle
 
 ## Installation
 
-### Step 1. Add the JitPack repository
-
-Add the JitPack repository to your **settings.gradle.kts** file:
-
-```kotlin
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-    }
-}
-```
-
-### Step 2. Add the dependency
-
 Add the dependency to your app module's **build.gradle.kts** file:
 
 ```kotlin
 dependencies {
-    implementation("com.github.zahid4kh:neobrutal-lib:1.0.9")
+    implementation("io.github.zahid4kh:neobrutal:1.1.0")
 }
 ```
 
